@@ -1,0 +1,21 @@
+services:
+  - type: web
+    name: kohen-contact-api
+    runtime: node
+    region: oregon
+    plan: free
+    branch: main
+    buildCommand: npm ci
+    startCommand: npm start
+    healthCheckPath: /health
+    envVars:
+      - key: FROM_EMAIL
+        value: Kohen Industrial <kohen@gopointagency.com>
+      - key: TO_EMAIL
+        value: ventas@kohen.cl
+      - key: REDIRECT_URL
+        value: https://kohen.cl/gracias/
+      - key: ALLOWED_ORIGIN
+        value: https://kohen.cl
+      - key: RESEND_API_KEY
+        sync: false
