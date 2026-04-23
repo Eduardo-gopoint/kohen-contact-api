@@ -5,11 +5,13 @@ import { Resend } from 'resend';
 const {
   RESEND_API_KEY,
   FROM_EMAIL = 'Kohen Industrial <contacto@gopointagency.com>',
-  TO_EMAIL = 'ventas@kohen.cl',
+  TO_EMAIL = 'ventas@kohen.cl,seo@gopointagency.com',
   REDIRECT_URL = 'https://kohen.cl/gracias/',
   ALLOWED_ORIGIN = 'https://kohen.cl',
   PORT = 10000,
 } = process.env;
+
+const TO_EMAILS = TO_EMAIL.split(',').map((e) => e.trim()).filter(Boolean);
 
 if (!RESEND_API_KEY) {
   console.error('[kohen-contact-api] Falta RESEND_API_KEY');
@@ -61,7 +63,7 @@ app.post('/submit', upload.any(), async (req, res) => {
 
     const { error } = await resend.emails.send({
       from: FROM_EMAIL,
-      to: [TO_EMAIL],
+      to: TO_EMAILS,
       reply_to: email,
       subject: subjectEmail,
       html: htmlBody,
